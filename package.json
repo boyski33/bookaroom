@@ -1,0 +1,24 @@
+{
+  "name": "bookaroom",
+  "version": "0.1.0",
+  "description": "Book any room or hall without any hassle with the click of a button.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boyski33/bookaroom.git"
+  },
+  "author": "Boyan Kushlev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boyski33/bookaroom/issues"
+  },
+  "homepage": "https://github.com/boyski33/bookaroom#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongodb": "^3.0.10"
+  }
+}
