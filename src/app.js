@@ -1,30 +1,64 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const MongoClient = require('mongodb').MongoClient;
-const connectionUrl = "mongodb://user1:drOetker@bookaroom-cluster-shard-00-00-4mp6e.mongodb.net:27017,bookaroom-cluster-shard-00-01-4mp6e.mongodb.net:27017,bookaroom-cluster-shard-00-02-4mp6e.mongodb.net:27017/test?ssl=true&replicaSet=bookaroom-cluster-shard-0&authSource=admin&retryWrites=true"
+const connectionUrl = "mongodb+srv://user1:drOetker@bookaroom-cluster-4mp6e.mongodb.net/test?retryWrites=true"
 const PORT = 3000;
 
-MongoClient.connect(connectionUrl, (err, db) => {
-  if (err) {
-    throw err;
-  }
-  const dbo = db.db('testDb');
-  dbo.createCollection('rooms', (err, res) => {
-    if (err) {
-      throw err;
-    }
-
-    console.log('collection created');
-    db.close();
-  });
-
-
-  db.close();
+const roomSchema = Schema({
+  name: String,
+  location: String
 });
 
+const Room = mongoose.model('Room', roomSchema);
+let room1 = new Room({
+  name: 'Peter Parker Hall',
+  location: 'Building I'
+});
+
+mongoose.connect(connectionUrl);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('connected?');
+
+  // room1.save((err, room1) => {
+  //   if (err) {
+  //     console.error(err);
+  //     return;
+  //   }
+  //   console.log(room1.location);
+  // })
+  Room.findOne({ name: 'Peter Parker Hall' }, (err, room) => {
+    if (err) throw err;
+    console.log(room.location);
+  });
+});
+
+// MongoClient.connect(connectionUrl, (err, client) => {
+//   if (err) {
+//     throw err;
+//   }
+//   console.log('Connected to DB...');
+//   const dataBase = client.db('test');
+//   // dataBase.createCollection('rooms');
+//   const collection = dataBase.collection('rooms');
+
+//   // collection.insertOne({
+//   //   location: 'Building B'
+//   // })
+
+
+//   collection.find({
+//     location: 'Building B'
+//   }).next().then(val => console.log(val));
+
+//   client.close();
+// });
+
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello niggas');
 });
 
 app.listen(PORT, () => {
