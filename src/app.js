@@ -5,11 +5,8 @@ const Schema = mongoose.Schema;
 const MongoClient = require('mongodb').MongoClient;
 const connectionUrl = "mongodb+srv://user1:drOetker@bookaroom-cluster-4mp6e.mongodb.net/test?retryWrites=true"
 const PORT = 3000;
-
-const roomSchema = Schema({
-  name: String,
-  location: String
-});
+const roomSchema = require('./schemas').roomSchema;
+require('./rest-api').rest(app);
 
 const Room = mongoose.model('Room', roomSchema);
 let room1 = new Room({
@@ -56,10 +53,6 @@ db.once('open', () => {
 
 //   client.close();
 // });
-
-app.get('/', (req, res) => {
-  res.send('Hello niggas');
-});
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
