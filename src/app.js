@@ -7,31 +7,10 @@ const connectionUrl = "mongodb+srv://user1:drOetker@bookaroom-cluster-4mp6e.mong
 const PORT = 3000;
 const roomSchema = require('./schemas').roomSchema;
 require('./rest-api').rest(app);
+const persistence = require('./persistence');
 
-const Room = mongoose.model('Room', roomSchema);
-let room1 = new Room({
-  name: 'Peter Parker Hall',
-  location: 'Building I'
-});
 
-mongoose.connect(connectionUrl);
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('connected?');
-
-  // room1.save((err, room1) => {
-  //   if (err) {
-  //     console.error(err);
-  //     return;
-  //   }
-  //   console.log(room1.location);
-  // })
-  Room.findOne({ name: 'Peter Parker Hall' }, (err, room) => {
-    if (err) throw err;
-    console.log(room.location);
-  });
-});
+persistence.connectToDb();
 
 // MongoClient.connect(connectionUrl, (err, client) => {
 //   if (err) {
