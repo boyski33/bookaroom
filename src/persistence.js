@@ -19,13 +19,29 @@ module.exports.getAllRooms = function () {
   });
 };
 
-module.exports.getRoomByLocation = function (loc) {
-  Room.find({ location: loc }, (err, room) => {
-    console.log(room);
+module.exports.getRoomsByLocation = function (loc) {
+  return Room.find({ location: loc }, (err, room) => {
+    if (err) return console.error(err);
   });
+};
+
+module.exports.getRoomsByName = function (name) {
+
+};
+
+module.exports.getRoomsByBooked = function (name) {
+
 };
 
 module.exports.addNewRoom = function (room) {
   const newRoom = new Room(room);
   return newRoom.save();
+}
+
+module.exports.updateRoomStatus = function (room) {
+  const query = {
+    name: room.name,
+    location: room.location,
+  };
+  return Room.findOneAndUpdate(query, { isBooked: room.isBooked });
 }
