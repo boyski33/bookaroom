@@ -5,12 +5,6 @@ const bodyParser = require('body-parser');
 module.exports.rest = function (app) {
   app.use(bodyParser.json());
 
-  app.get('/room', (request, response) => {
-    const locationQuery = request.query.location || 'no location';
-    persistence.getRoomByLocation(locationQuery);
-    response.send('good');
-  });
-
   app.get('/', (request, response) => {
     persistence.getAllRooms()
       .exec((err, r) => {
@@ -19,11 +13,17 @@ module.exports.rest = function (app) {
       });
   });
 
+  app.get('/room', (request, response) => {
+    const locationQuery = request.query.location || 'no location';
+    persistence.getRoomByLocation(locationQuery);
+    response.send('good');
+  });
+
   app.post('/room', (request, response) => {
     const room = request.body;
     persistence.addNewRoom(room)
       .then(room => response.send(room))
-      .catch(err => response.send('An error occurred while adding a new room.'));    
+      .catch(err => response.send('An error occurred while adding a new room.'));
   });
 
 };
