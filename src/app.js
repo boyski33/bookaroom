@@ -3,11 +3,12 @@ const app = express();
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const MongoClient = require('mongodb').MongoClient;
-const connectionUrl = "mongodb+srv://user1:drOetker@bookaroom-cluster-4mp6e.mongodb.net/test?retryWrites=true"
-const PORT = 3000;
+const PORT = require('./config.json').serverPort;
 const roomSchema = require('./schemas').roomSchema;
 require('./rest-api').rest(app);
 const persistence = require('./persistence');
+
+
 
 
 persistence.connectToDb();

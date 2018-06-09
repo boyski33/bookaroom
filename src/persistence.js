@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
-const connectionUrl = "mongodb+srv://user1:drOetker@bookaroom-cluster-4mp6e.mongodb.net/test?retryWrites=true"
+const connectionUrl = require('./config.json').connectionUrl;
 const roomSchema = require('./schemas').roomSchema;
 
 const Room = mongoose.model('Room', roomSchema);
@@ -30,10 +30,14 @@ module.exports.getRoomByLocation = function(loc) {
   });
 };
 
-
 module.exports.getAllRooms = function() {
-  return Room.find((err, rooms) => {
-    return rooms;
+  return Room.find((err, room) => {
+    if (err) return console.error(err);
   });
 };
+
+module.exports.addNewRoom = function(room) {
+  const newRoom = new Room(room);
+  return newRoom.save();
+}
 

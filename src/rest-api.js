@@ -1,21 +1,29 @@
 const persistence = require('./persistence');
+const bodyParser = require('body-parser');
+
 
 module.exports.rest = function (app) {
-  app.get('/room', (req, res) => {
-    const locationQuery = req.query.location || 'no location';
+  app.use(bodyParser.json());
+
+  app.get('/room', (request, response) => {
+    const locationQuery = request.query.location || 'no location';
     persistence.getRoomByLocation(locationQuery);
-    res.send('good');
+    response.send('good');
   });
 
-  app.get('/', (req, res) => {
+  app.get('/', (request, response) => {
     persistence.getAllRooms()
       .exec((err, r) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        res.send(r);
+        if (err) return console.error(err);
+        response.send(r);
       });
+  });
+
+  app.post('/room', (request, response) => {
+    const room = request.body;
+    persistence.addNewRoom(room)
+      .then(room => response.send(room))
+      .catch(err => response.send('An error occurred while adding a new room.'));    
   });
 
 };
