@@ -1,0 +1,4 @@
+{
+  "connectionUrl": "mongodb://admin:Passw0rd@ds147420.mlab.com:47420/bookaroom-db",
+  "serverPort": 3000
+}
