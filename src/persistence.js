@@ -14,29 +14,33 @@ module.exports.connectToDb = function () {
 };
 
 module.exports.getAllRooms = function () {
-  return Room.find((err, room) => {
+  return Room.find((err, rooms) => {
     if (err) return console.error(err);
   });
 };
 
 module.exports.getRoomsByLocation = function (loc) {
-  return Room.find({ location: loc }, (err, room) => {
+  return Room.find({ location: loc }, (err, rooms) => {
     if (err) return console.error(err);
   });
 };
 
 module.exports.getRoomsByName = function (name) {
-
+  return Room.find({ name: name }, (err, rooms) => {
+    if (err) return console.error(err);
+  });
 };
 
-module.exports.getRoomsByBooked = function (name) {
-
+module.exports.getRoomsByBooked = function (isBooked) {
+  return Room.find({ isBooked: isBooked }, (err, rooms) => {
+    if (err) return console.error(err);
+  })
 };
 
 module.exports.addNewRoom = function (room) {
   const newRoom = new Room(room);
   return newRoom.save();
-}
+};
 
 module.exports.updateRoomStatus = function (room) {
   const query = {
@@ -44,4 +48,4 @@ module.exports.updateRoomStatus = function (room) {
     location: room.location,
   };
   return Room.findOneAndUpdate(query, { isBooked: room.isBooked });
-}
+};
