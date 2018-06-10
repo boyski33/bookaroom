@@ -18,12 +18,21 @@ module.exports.rest = function (app) {
   });
 
   app.get('/room', (request, response) => {
-    const locationQuery = request.query.location || 'no location';
-    persistence.getRoomsByLocation(locationQuery)
-      .exec((err, rooms) => {
-        if (err) return console.error(err);
-        response.send(rooms);
-      });
+    const locationQuery = request.query.location;
+    const isBookedQuery = request.query.isBooked;
+    if (locationQuery) {
+      persistence.getRoomsByLocation(locationQuery)
+        .exec((err, rooms) => {
+          if (err) return console.error(err);
+          response.send(rooms);
+        });
+    } else if (isBookedQuery) {
+      isBookedQuery && persistence.getRoomsByBooked(isBookedQuery)
+        .exec((err, rooms) => {
+          if (err) return console.error(err);
+          response.send(rooms);
+        })
+    }
   });
 
   app.post('/room', (request, response) => {
