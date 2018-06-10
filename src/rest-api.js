@@ -1,9 +1,13 @@
 const persistence = require('./persistence');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 
 module.exports.rest = function (app) {
   app.use(bodyParser.json());
+  app.use(cors());
+
+  // TODO: remove / path and combine methods: is no query params are passed, then return all rooms
 
   app.get('/', (request, response) => {
     persistence.getAllRooms()
