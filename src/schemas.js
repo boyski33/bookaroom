@@ -2,8 +2,15 @@ const Schema = require('mongoose').Schema;
 
 const roomSchema = Schema(
   {
-    name: String,
+    name: {
+      type: String,
+      required: true
+    },
     location: String,
+    capacity: {
+      type: Number,
+      min: [0, 'Cannot have negative capacity!']
+    },
     isBooked: Boolean
   },
   {
