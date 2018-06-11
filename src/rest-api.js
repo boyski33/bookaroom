@@ -39,7 +39,10 @@ module.exports.rest = function (app) {
     const room = request.body;
     persistence.addNewRoom(room)
       .then(room => response.send(room))
-      .catch(err => response.send('An error occurred while adding a new room.'));
+      .catch(err => {
+        response.status(400);
+        response.send(err.message);
+      });
   });
 
   app.put('/room', (request, response) => {

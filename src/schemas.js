@@ -7,7 +7,10 @@ const roomSchema = Schema(
       required: true
     },
     location: String,
-    capacity: Number,
+    capacity: {
+      type: Number,
+      min: [0, 'Cannot have negative capacity!']
+    },
     isBooked: Boolean
   },
   {
