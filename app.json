@@ -1,0 +1,5 @@
+{
+  "name": "Bookaroom",
+  "description": "An application for booking rooms around campus",
+  "keywords": ["node", "express"]
+}
